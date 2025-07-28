@@ -13,7 +13,7 @@ import '../../domain/repositories/auth_repository.dart';
 class AuthRepositoryImpl implements AuthRepository {
  final AuthLocalDateSource _localDateSource;
  final AuthRemoteDataSource _remoteDataSource;
- AuthRepositoryImpl( this._localDateSource,  this._remoteDataSource);
+const AuthRepositoryImpl( this._localDateSource,  this._remoteDataSource);
  @override
   Future<Either<Failure,User>>login(auth_repository_impl.LoginRequest request)async{
    try {

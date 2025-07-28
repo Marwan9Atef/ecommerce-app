@@ -1,11 +1,18 @@
 import 'dart:async';
 
+import 'package:ecommerce/core/di/service_locator.dart';
 import 'package:ecommerce/core/resources/assets_manager.dart';
+import 'package:ecommerce/core/widgets/loading_indicator.dart';
+import 'package:ecommerce/features/home/presentation/cubit/home_cubit.dart';
 import 'package:ecommerce/features/home/presentation/widgets/announcements_section.dart';
 import 'package:ecommerce/features/home/presentation/widgets/category_item.dart';
 import 'package:ecommerce/features/home/presentation/widgets/custom_section_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../core/widgets/error_indicator.dart';
+import '../cubit/home_state.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab();
@@ -47,14 +54,33 @@ class _HomeTabState extends State<HomeTab> {
               ),
               SizedBox(
                 height: 270.h,
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  itemBuilder: (_, index) => const CategoryItem(),
-                  itemCount: 8,
-                  scrollDirection: Axis.horizontal,
-                ),
+
+                 child:
+                  BlocProvider(create: (_) =>serviceLocator.get<HomeCubit>() ,child:
+                    BlocBuilder<HomeCubit,HomeState>(builder: (_, state) {
+                      if (state is CategoryLoading) {
+                       return const LoadingIndicator();
+                      }else if(state is CategoryLoaded){
+                        return GridView.builder(
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                          ),
+                          itemBuilder: (_, index) =>
+                              CategoryItem(state.categories[index]),
+                          itemCount: state.categories.length,
+                          scrollDirection: Axis.horizontal,
+                        );
+                      }else if(state is CategoryError){
+                      return ErrorIndicator(state.message);
+                      }else{
+                        return const SizedBox();
+                      }
+
+
+                    },)
+                    ,)
+
               ),
               SizedBox(height: 12.h),
             ],

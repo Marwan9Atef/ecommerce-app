@@ -6,7 +6,7 @@ import '../entities/user.dart';
 import '../repositories/auth_repository.dart';
 @singleton
 class Register {
-  Register(this._authRepository);
+ const Register(this._authRepository);
   final AuthRepository _authRepository;
   Future<Either<Failure,User>>call(RegisterRequest request)=>_authRepository.register(request);
 

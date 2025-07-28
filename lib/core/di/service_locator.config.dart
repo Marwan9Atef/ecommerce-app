@@ -28,6 +28,18 @@ import 'package:ecommerce/features/auth/domain/use_cases/register.dart'
     as _i696;
 import 'package:ecommerce/features/auth/presentation/cubit/auth_cubit.dart'
     as _i350;
+import 'package:ecommerce/features/home/data/data_sources/remote/home_api_data_source.dart'
+    as _i760;
+import 'package:ecommerce/features/home/data/data_sources/remote/home_remote_data_source.dart'
+    as _i329;
+import 'package:ecommerce/features/home/data/repositories/home_repository_impl.dart'
+    as _i1028;
+import 'package:ecommerce/features/home/domain/repositories/home_repository.dart'
+    as _i572;
+import 'package:ecommerce/features/home/domain/use_cases/get_categories.dart'
+    as _i533;
+import 'package:ecommerce/features/home/presentation/cubit/home_cubit.dart'
+    as _i669;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -45,6 +57,9 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.singleton<_i361.Dio>(() => registerModule.dio);
+    gh.lazySingleton<_i329.HomeRemoteDataSource>(
+      () => _i760.HomeAPIDataSource(gh<_i361.Dio>()),
+    );
     gh.singleton<_i726.AuthLocalDateSource>(
       () => _i914.AuthSharedPreferenceDataSource(gh<_i460.SharedPreferences>()),
     );
@@ -57,9 +72,18 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i385.AuthRemoteDataSource>(),
       ),
     );
+    gh.lazySingleton<_i572.HomeRepository>(
+      () => _i1028.HomeRepositoryImpl(gh<_i329.HomeRemoteDataSource>()),
+    );
     gh.singleton<_i658.Login>(() => _i658.Login(gh<_i33.AuthRepository>()));
     gh.singleton<_i696.Register>(
       () => _i696.Register(gh<_i33.AuthRepository>()),
+    );
+    gh.lazySingleton<_i533.GetCategories>(
+      () => _i533.GetCategories(gh<_i572.HomeRepository>()),
+    );
+    gh.lazySingleton<_i669.HomeCubit>(
+      () => _i669.HomeCubit(gh<_i533.GetCategories>()),
     );
     gh.singleton<_i350.AuthCubit>(
       () => _i350.AuthCubit(gh<_i658.Login>(), gh<_i696.Register>()),

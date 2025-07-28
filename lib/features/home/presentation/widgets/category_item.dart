@@ -5,9 +5,11 @@ import 'package:ecommerce/core/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CategoryItem extends StatelessWidget {
-  const CategoryItem();
+import '../../domain/entities/category.dart';
 
+class CategoryItem extends StatelessWidget {
+  const CategoryItem(this.category);
+ final Category category;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,14 +28,14 @@ class CategoryItem extends StatelessWidget {
               ),
               child: CachedNetworkImage(
                 imageUrl:
-                    'https://helios-i.mashable.com/imagery/articles/05djrP5PjtVB7CcMtvrTOAP/images-4.fill.size_2000x1125.v1723100793.jpg',
+                category.imageURL,
                 fit: BoxFit.fill,
               ),
             ),
           ),
           SizedBox(height: 8.h),
           Text(
-            'Laptops',
+            category.name,
             style:
                 getRegularStyle(color: ColorManager.darkBlue, fontSize: 14.sp),
           ),
