@@ -1,5 +1,6 @@
-import 'package:ecommerce/features/home/data/models/category_response.dart';
 import 'package:ecommerce/features/home/domain/entities/category.dart';
+
+import '../../../../core/models/category_model.dart';
 
 extension HomeMapper on CategoryModel{
   Category get toEntity =>

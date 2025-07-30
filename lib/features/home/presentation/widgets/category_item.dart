@@ -2,19 +2,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/core/resources/color_manager.dart';
 import 'package:ecommerce/core/resources/styles_manager.dart';
 import 'package:ecommerce/core/routes/routes.dart';
+import 'package:ecommerce/features/home/domain/entities/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../domain/entities/category.dart';
-
 class CategoryItem extends StatelessWidget {
   const CategoryItem(this.category);
- final Category category;
+
+  final Category category;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Navigator.of(context).pushNamed(
         Routes.products,
+        arguments: category.id,
       ),
       child: Column(
         children: [
@@ -27,8 +29,7 @@ class CategoryItem extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: CachedNetworkImage(
-                imageUrl:
-                category.imageURL,
+                imageUrl: category.imageURL,
                 fit: BoxFit.fill,
               ),
             ),
@@ -36,8 +37,10 @@ class CategoryItem extends StatelessWidget {
           SizedBox(height: 8.h),
           Text(
             category.name,
-            style:
-                getRegularStyle(color: ColorManager.darkBlue, fontSize: 14.sp),
+            style: getRegularStyle(
+              color: ColorManager.darkBlue,
+              fontSize: 14.sp,
+            ),
           ),
         ],
       ),

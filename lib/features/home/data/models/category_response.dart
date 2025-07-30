@@ -1,4 +1,7 @@
 import 'dart:convert';
+
+import '../../../../core/models/category_model.dart';
+import '../../../../core/models/metadata.dart';
 CategoryResponse categoryResponseFromJson(String str) => CategoryResponse.fromJson(json.decode(str));
 
 
@@ -22,50 +25,6 @@ class CategoryResponse {
 
 }
 
-class CategoryModel {
-    CategoryModel({
-        required this.imageURL,
-        required this.createdAt,
-        required this.name,
-        required this.id,
-        required this.slug,
-        required this.updatedAt,
-    });
-
-    String imageURL;
-    DateTime createdAt;
-    String name;
-    String id;
-    String slug;
-    DateTime updatedAt;
-
-    factory CategoryModel.fromJson(Map<dynamic, dynamic> json) => CategoryModel(
-        imageURL: json["image"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        name: json["name"],
-        id: json["_id"],
-        slug: json["slug"],
-        updatedAt: DateTime.parse(json["updatedAt"]),
-    );
 
 
-}
 
-class Metadata {
-    Metadata({
-        required this.numberOfPages,
-        required this.limit,
-        required this.currentPage,
-    });
-
-    int numberOfPages;
-    int limit;
-    int currentPage;
-
-    factory Metadata.fromJson(Map<dynamic, dynamic> json) => Metadata(
-        numberOfPages: json["numberOfPages"],
-        limit: json["limit"],
-        currentPage: json["currentPage"],
-    );
-
-}

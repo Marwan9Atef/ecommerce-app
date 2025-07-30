@@ -40,6 +40,18 @@ import 'package:ecommerce/features/home/domain/use_cases/get_categories.dart'
     as _i533;
 import 'package:ecommerce/features/home/presentation/cubit/home_cubit.dart'
     as _i669;
+import 'package:ecommerce/features/products/data/data_source/remote/products_api_remote_data_source.dart'
+    as _i925;
+import 'package:ecommerce/features/products/data/data_source/remote/products_remote_data_source.dart'
+    as _i702;
+import 'package:ecommerce/features/products/data/repositories/products_repository_impl.dart'
+    as _i969;
+import 'package:ecommerce/features/products/domain/repositories/products_repository.dart'
+    as _i994;
+import 'package:ecommerce/features/products/domain/use_cases/get_products.dart'
+    as _i551;
+import 'package:ecommerce/features/products/presentation/cubit/products_cubit.dart'
+    as _i382;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -57,6 +69,9 @@ extension GetItInjectableX on _i174.GetIt {
       preResolve: true,
     );
     gh.singleton<_i361.Dio>(() => registerModule.dio);
+    gh.lazySingleton<_i702.ProductsRemoteDataSource>(
+      () => _i925.ProductsAPIRemoteDataSource(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i329.HomeRemoteDataSource>(
       () => _i760.HomeAPIDataSource(gh<_i361.Dio>()),
     );
@@ -66,6 +81,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i385.AuthRemoteDataSource>(
       () => _i990.AuthAPIDataSource(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i994.ProductsRepository>(
+      () => _i969.ProductsRepositoryImpl(gh<_i702.ProductsRemoteDataSource>()),
+    );
     gh.singleton<_i33.AuthRepository>(
       () => _i689.AuthRepositoryImpl(
         gh<_i726.AuthLocalDateSource>(),
@@ -74,6 +92,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i572.HomeRepository>(
       () => _i1028.HomeRepositoryImpl(gh<_i329.HomeRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i551.GetProducts>(
+      () => _i551.GetProducts(gh<_i994.ProductsRepository>()),
     );
     gh.singleton<_i658.Login>(() => _i658.Login(gh<_i33.AuthRepository>()));
     gh.singleton<_i696.Register>(
@@ -87,6 +108,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i350.AuthCubit>(
       () => _i350.AuthCubit(gh<_i658.Login>(), gh<_i696.Register>()),
+    );
+    gh.factory<_i382.ProductsCubit>(
+      () => _i382.ProductsCubit(gh<_i551.GetProducts>()),
     );
     return this;
   }

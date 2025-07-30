@@ -3,6 +3,7 @@ class APIConstant {
   static const String registerEndpoint="auth/signup";
   static const String loginEndpoint="auth/signin";
   static const String categoryEndpoint="categories";
+  static const String productsEndpoint="products";
 }
 class LocalStorageConstant {
   static const String tokenKey="token";
