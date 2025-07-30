@@ -170,7 +170,7 @@ class ProductItem extends StatelessWidget {
 
   String _truncateDescription(String description) {
     final List<String> words = description.split(RegExp(r'[\s-]+'));
-    if (words.length <= 1) {
+    if (words.length <= 4) {
       return description;
     } else {
       return '${words.sublist(0, 4).join(' ')}..';
